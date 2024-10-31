@@ -30,6 +30,7 @@
                         <th scope="col">Удалить кнопкой</th>
                         <th scope="col">Удалить иконкой</th>
                         <th scope="col">Редактировать</th>
+                        <th scope="col">Пользователь</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -52,6 +53,9 @@
                             <td>
                                 <a href="{% url "SnippetEdit" snippet.id %}">
                                     <i style="color:red" class="fa-solid fa-pen-to-square"></i></a>
+                            </td>
+                            <td>
+                                {{ snippet.user.username }}
                             </td>
                         </tr>
                     {% endfor %}

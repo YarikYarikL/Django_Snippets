@@ -24,7 +24,10 @@ def add_snippet_page(request):
     if request.method == "POST":
         form = SnippetForm(request.POST)
         if form.is_valid():
-            form.save()
+            snippet = form.save(commit = False)
+            if request.user.is_authentificated:
+                snippet.user = request.user
+                snippet.save()
             return redirect("SnippetsList")
         return render(request, "pages/add_snippet.html", {"form": form})
 
