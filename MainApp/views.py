@@ -36,8 +36,9 @@ def add_snippet_page(request):
 
 def snippets_page(request):
     snippets = Snippet.objects.filter(public=True)
-    context = {'pagename': 'Просмотр сниппетов',
-               'snippets': snippets
+    context = {"pagename": 'Просмотр сниппетов',
+               "snippets": snippets,
+               "count": snippets.count()
                }
     return render(request, 'pages/view_snippets.html', context)
 
@@ -45,8 +46,8 @@ def snippets_page(request):
 def my_snippets(request):
     snippets = Snippet.objects.filter(user=request.user)
     context = {'pagename': 'Мои сниппеты',
-               'snippets': snippets
-               }
+               'snippets': snippets,
+               'count':snippets.count()}
     return render(request, 'pages/view_snippets.html', context)
 
 
@@ -118,7 +119,7 @@ def create_user(request):
         context["form"] = form
         return render(request,'pages/registration.html',context)
     if request.method == "POST":
-        form = UserRegistrationForm()
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("HomePage")
