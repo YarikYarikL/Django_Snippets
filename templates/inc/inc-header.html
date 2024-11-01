@@ -12,13 +12,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
+                    {% if request.user.is_authenticated %}
+                        <li class="form-inline">
+                            <a class="btn btn-outline-secondary" href="{% url "SnippetAdd" %}">
+                                Добавить сниппет
+                            </a>
+                        </li>
+                    {% endif %}
                     <li class="form-inline">
-                        <a class="btn btn-outline-secondary" href="{% url "SnippetAdd" %}">
-                            Добавить сниппет
-                        </a>
-                    </li>
-                    <li class="form-inline">
-                        <a class="btn btn-outline-info" href="{% url "SnippetsList" %}"">
+                        <a class="btn btn-outline-info" href="{% url "SnippetsList" %}">
                             Посмотреть сниппеты
                         </a>
                     </li>
