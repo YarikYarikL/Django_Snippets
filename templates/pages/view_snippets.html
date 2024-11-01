@@ -25,37 +25,31 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Название</th>
-                        <th scope="col">Дата создания</th>
-                        <th scope="col">Удалить просто</th>
-                        <th scope="col">Удалить кнопкой</th>
-                        <th scope="col">Удалить иконкой</th>
-                        <th scope="col">Редактировать</th>
                         <th scope="col">Пользователь</th>
+                        <th scope="col">Вид сниппета</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for snippet in snippets %}
                         <tr>
                             <td scope="row"> {{ snippet.id }} </td>
-                            <td><a href="{% url "SnippetDetails" snippet.id %}">{{ snippet.name }}</a></td>
-                            <td>{{ snippet.creation_date | date:"d M Y" }}</td>
-                            <td><a href="{% url "SnippetDelete" snippet.id %}">Удалить</a></td>
-                            <td>
-                                <form action="{% url "SnippetDelete" snippet.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                            </td>
-                            <td>
+                            <td><a href="{% url "SnippetDetails" snippet.id %}">{{ snippet.name }}</a>
+                            {% if request.user == snippet.user %}
                                 <a href="{% url "SnippetDelete" snippet.id %}">
                                     <i style="color:red" class="fa-solid fa-trash"></i></a>
-                            </td>
-                            <td>
                                 <a href="{% url "SnippetEdit" snippet.id %}">
                                     <i style="color:red" class="fa-solid fa-pen-to-square"></i></a>
+                            {% endif %}
                             </td>
                             <td>
                                 {{ snippet.user.username }}
+                            </td>
+                            <td>
+                                {% if snippet.public %}
+                                    публичный
+                                {% else %}
+                                    приватный
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
