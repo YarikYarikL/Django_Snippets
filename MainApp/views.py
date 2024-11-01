@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.core.exceptions import ObjectDoesNotExist
 from MainApp.forms import SnippetForm
 from django.contrib import auth
+from django.contrib.auth.models import User
 
 def index_page(request):
     context = {'pagename': 'PythonBin'}
@@ -25,7 +26,7 @@ def add_snippet_page(request):
         form = SnippetForm(request.POST)
         if form.is_valid():
             snippet = form.save(commit = False)
-            if request.user.is_authentificated:
+            if request.user.is_authenticated:
                 snippet.user = request.user
                 snippet.save()
             return redirect("SnippetsList")
@@ -105,7 +106,11 @@ def login(request):
             auth.login(request, user)
         else:
             # Return error message
-            pass
+            context = {
+                "pagename": "PythonBin",
+                "errors": ["Wrong username or password"],
+            }
+            return render(request,"pages/index.html", context)
     return redirect('HomePage')
 
 
